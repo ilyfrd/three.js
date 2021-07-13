@@ -43,9 +43,21 @@ function MeshBasicMaterial( parameters ) {
 
 	this.type = 'MeshBasicMaterial';
 
+	// 如果mesh是单一色的话，则 color 起作用
 	this.color = new Color( 0xffffff ); // emissive
 
+	// 如果mesh的颜色由纹理采样得到，则 map 起作用。
+	// map 将作为uniform传到shader里面
+	/*
+	#ifdef USE_MAP
+		vec4 texelColor = texture2D( map, vUv );
+
+		texelColor = mapTexelToLinear( texelColor );
+		diffuseColor *= texelColor;
+	#endif
+	*/
 	this.map = null;
+
 
 	this.lightMap = null;
 	this.lightMapIntensity = 1.0;
@@ -55,7 +67,13 @@ function MeshBasicMaterial( parameters ) {
 
 	this.specularMap = null;
 
-	this.alphaMap = null;
+	// alphaMap 将作为uniform传到shader里面，alphaMap 允许物体以采样的模式控制透明度。
+	/*
+	#ifdef USE_ALPHAMAP
+		diffuseColor.a *= texture2D( alphaMap, vUv ).g;
+	#endif
+	*/
+	this.alphaMap = null; 
 
 	this.envMap = null;
 	this.combine = MultiplyOperation;

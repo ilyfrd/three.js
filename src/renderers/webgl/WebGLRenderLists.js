@@ -152,7 +152,7 @@ function WebGLRenderList() {
 
 function WebGLRenderLists() {
 
-	var lists = new WeakMap();
+	var lists = new WeakMap(); // 该lists中存放scenes
 
 	function onSceneDispose( event ) {
 
@@ -166,7 +166,7 @@ function WebGLRenderLists() {
 
 	function get( scene, camera ) {
 
-		var cameras = lists.get( scene );
+		var cameras = lists.get( scene ); // 每一个scene中可以有多个camera，每个camera管理自己可见的objects
 		var list;
 		if ( cameras === undefined ) {
 

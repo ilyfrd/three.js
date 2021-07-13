@@ -645,6 +645,9 @@ function WebGLRenderer( parameters ) {
 
 	}
 
+	/*ImmediateRenderObject (this is what's rendered via renderBufferImmediate) is best suited for rendering objects with variable(少量) number of triangles.
+	* You create fixed size typed array buffers for each attribute. Your object gets a callback and then it's up to you to keep filling the buffers with data till there are triangles to render and call this callback to render unindexed triangles (gl.drawArrays).
+	*/
 	this.renderBufferImmediate = function ( object, program ) {
 
 		state.initAttributes();
@@ -706,6 +709,10 @@ function WebGLRenderer( parameters ) {
 
 	};
 
+	/*BufferGeometry (this is what's rendered via renderBufferDirect) is best suited for rendering large static geometries. 
+	*You create one huge(大量) typed array buffer per attribute and store offsets into JS array. 
+	*Then renderer renders these as indexed triangles (gl.drawElements), moving attribute pointers according to offsets.
+	*/
 	this.renderBufferDirect = function ( camera, fog, geometry, material, object, group ) {
 
 		var frontFaceCW = ( object.isMesh && object.matrixWorld.determinant() < 0 );
@@ -1196,7 +1203,7 @@ function WebGLRenderer( parameters ) {
 
 		//
 
-		background.render( currentRenderList, scene, camera, forceClear );
+		background.render( currentRenderList, scene, camera, forceClear ); // 首先渲染背景
 
 		// render scene
 
@@ -1275,7 +1282,7 @@ function WebGLRenderer( parameters ) {
 
 		if ( visible ) {
 
-			if ( object.isGroup ) {
+			if ( object.isGroup ) { // group object只作为实际objects的容器，实际objects的groupOrder值都等于该group object 的renderOrder值。
 
 				groupOrder = object.renderOrder;
 
@@ -1295,7 +1302,7 @@ function WebGLRenderer( parameters ) {
 
 			} else if ( object.isSprite ) {
 
-				if ( ! object.frustumCulled || _frustum.intersectsSprite( object ) ) {
+				if ( ! object.frustumCulled || _frustum.intersectsSprite( object ) ) { // 如果该物体没有被剔除，则将该物体添加到currentRenderList中
 
 					if ( sortObjects ) {
 
@@ -1364,7 +1371,7 @@ function WebGLRenderer( parameters ) {
 
 							if ( groupMaterial && groupMaterial.visible ) {
 
-								currentRenderList.push( object, geometry, groupMaterial, groupOrder, _vector3.z, group );
+								currentRenderList.push( object, geometry, groupMaterial, groupOrder, _vector3.z, group ); //猜测此处group参数将作为定位object中要应用groupMaterial材质的几何区域
 
 							}
 
@@ -1372,7 +1379,7 @@ function WebGLRenderer( parameters ) {
 
 					} else if ( material.visible ) {
 
-						currentRenderList.push( object, geometry, material, groupOrder, _vector3.z, null );
+						currentRenderList.push( object, geometry, material, groupOrder, _vector3.z, null ); // 这里group为null，则表示object的整个区域都将应用material材质。
 
 					}
 
@@ -1476,7 +1483,7 @@ function WebGLRenderer( parameters ) {
 
 	}
 
-	function initMaterial( material, fog, object ) {
+	function initMaterial( material, fog, object ) { // 主要是设置program字段
 
 		var materialProperties = properties.get( material );
 
@@ -1690,7 +1697,7 @@ function WebGLRenderer( parameters ) {
 
 		}
 
-		if ( material.version !== materialProperties.__version ) {
+		if ( material.version !== materialProperties.__version ) { // program由material中的信息创建而来。
 
 			initMaterial( material, fog, object );
 			materialProperties.__version = material.version;
@@ -2659,7 +2666,7 @@ function WebGLRenderer( parameters ) {
 
 			var __webglFramebuffer = properties.get( renderTarget ).__webglFramebuffer;
 
-			if ( renderTarget.isWebGLRenderTargetCube ) {
+			if ( renderTarget.isWebGLRenderTargetCube ) { // 如果render target是cube，那么 Framebuffer 就是数组。
 
 				framebuffer = __webglFramebuffer[ activeCubeFace || 0 ];
 				isCube = true;
@@ -2668,7 +2675,7 @@ function WebGLRenderer( parameters ) {
 
 				framebuffer = properties.get( renderTarget ).__webglMultisampledFramebuffer;
 
-			} else {
+			} else { // 对于普通的render target，Framebuffer 是单个对象。
 
 				framebuffer = __webglFramebuffer;
 

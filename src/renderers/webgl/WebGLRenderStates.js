@@ -68,7 +68,7 @@ function WebGLRenderStates() {
 
 	}
 
-	function get( scene, camera ) {
+	function get( scene, camera ) { // 获取某个场景中某个camera对应的渲染状态（同一个场景中的不同camera可能使用不同的渲染状态，渲染出不同的图像风格）
 
 		var renderState;
 

@@ -53,7 +53,7 @@ Line.prototype = Object.assign( Object.create( Object3D.prototype ), {
 				var positionAttribute = geometry.attributes.position;
 				var lineDistances = [ 0 ];
 
-				for ( var i = 1, l = positionAttribute.count; i < l; i ++ ) {
+				for ( var i = 1, l = positionAttribute.count; i < l; i ++ ) {// 每个顶点对应一个到初始顶点的弧长距离值。
 
 					_start.fromBufferAttribute( positionAttribute, i - 1 );
 					_end.fromBufferAttribute( positionAttribute, i );

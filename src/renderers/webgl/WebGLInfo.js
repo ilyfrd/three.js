@@ -21,7 +21,7 @@ function WebGLInfo( gl ) {
 
 		instanceCount = instanceCount || 1;
 
-		render.calls ++;
+		render.calls ++; // 每一次的draw call都需要调用一次 update 函数。
 
 		switch ( mode ) {
 

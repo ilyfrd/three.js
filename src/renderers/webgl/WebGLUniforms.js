@@ -131,9 +131,9 @@ function copyArray( a, b ) {
 
 // Texture unit allocation
 
-function allocTexUnits( textures, n ) {
+function allocTexUnits( textures, n ) { // 分配n个texture编号。
 
-	var r = arrayCacheI32[ n ];
+	var r = arrayCacheI32[ n ]; // 此处arrayCacheI32的设计感觉很奇葩，可以忽略。
 
 	if ( r === undefined ) {
 
@@ -201,7 +201,7 @@ function setValueV3f( gl, v ) {
 
 	var cache = this.cache;
 
-	if ( v.x !== undefined ) {
+	if ( v.x !== undefined ) { // 设置坐标值
 
 		if ( cache[ 0 ] !== v.x || cache[ 1 ] !== v.y || cache[ 2 ] !== v.z ) {
 
@@ -213,7 +213,7 @@ function setValueV3f( gl, v ) {
 
 		}
 
-	} else if ( v.r !== undefined ) {
+	} else if ( v.r !== undefined ) { // 设置颜色值
 
 		if ( cache[ 0 ] !== v.r || cache[ 1 ] !== v.g || cache[ 2 ] !== v.b ) {
 
@@ -225,7 +225,7 @@ function setValueV3f( gl, v ) {
 
 		}
 
-	} else {
+	} else { // 设置其他vector3值
 
 		if ( arraysEqual( cache, v ) ) return;
 
@@ -273,8 +273,8 @@ function setValueM2( gl, v ) {
 	var cache = this.cache;
 	var elements = v.elements;
 
-	if ( elements === undefined ) {
-
+	if ( elements === undefined ) { // 猜测，v有可能是数组，有可能是一个对象，其有一个elements数组成员变量，用于存放实际数据。
+ 
 		if ( arraysEqual( cache, v ) ) return;
 
 		gl.uniformMatrix2fv( this.addr, false, v );
@@ -358,7 +358,7 @@ function setValueT1( gl, v, textures ) {
 
 	if ( cache[ 0 ] !== unit ) {
 
-		gl.uniform1i( this.addr, unit );
+		gl.uniform1i( this.addr, unit ); // 该处的设置意义尚不清楚 TODO
 		cache[ 0 ] = unit;
 
 	}
@@ -695,7 +695,7 @@ StructuredUniform.prototype.setValue = function ( gl, value, textures ) {
 	for ( var i = 0, n = seq.length; i !== n; ++ i ) {
 
 		var u = seq[ i ];
-		u.setValue( gl, value[ u.id ], textures );
+		u.setValue( gl, value[ u.id ], textures ); // 像 setValueT1 、 setValueT2DArray1这样的函数需要传递textures参数。
 
 	}
 

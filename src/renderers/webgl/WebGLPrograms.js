@@ -251,7 +251,7 @@ function WebGLPrograms( renderer, extensions, capabilities ) {
 			array.push( parameters.shaderID );
 
 		} else {
-
+			// 这里对应的应该是 raw shader ,即用户自定义的 shader
 			array.push( material.fragmentShader );
 			array.push( material.vertexShader );
 

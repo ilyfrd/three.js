@@ -128,7 +128,7 @@ function WebGLLights() {
 			numSpotShadows: - 1,
 		},
 
-		ambient: [ 0, 0, 0 ],
+		ambient: [ 0, 0, 0 ], // 对应 ambient light
 		probe: [],
 		directional: [],
 		directionalShadowMap: [],
@@ -154,6 +154,7 @@ function WebGLLights() {
 	var matrix4 = new Matrix4();
 	var matrix42 = new Matrix4();
 
+	// 相当于 update， 一般光源在程序运行前设置，在渲染过程中光源状态不发生改变，即便发生了改变，也是调用setup来更新状态
 	function setup( lights, shadows, camera ) {
 
 		var r = 0, g = 0, b = 0;

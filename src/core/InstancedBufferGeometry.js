@@ -4,7 +4,7 @@ import { BufferGeometry } from './BufferGeometry.js';
  * @author benaadams / https://twitter.com/ben_a_adams
  */
 
-function InstancedBufferGeometry() {
+function InstancedBufferGeometry() { // InstancedBufferGeometry 只需要保存一份副本的几何信息，该信息就保存在其父类 BufferGeometry 中。
 
 	BufferGeometry.call( this );
 

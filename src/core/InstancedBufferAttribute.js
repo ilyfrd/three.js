@@ -18,7 +18,8 @@ function InstancedBufferAttribute( array, itemSize, normalized, meshPerAttribute
 
 	BufferAttribute.call( this, array, itemSize, normalized );
 
-	this.meshPerAttribute = meshPerAttribute || 1;
+	// meshPerAttribute 的逻辑还没看明白。 // todo
+	this.meshPerAttribute = meshPerAttribute || 1; 
 
 }
 

@@ -29,7 +29,7 @@ function PointLight( color, intensity, distance, decay ) {
 		}
 	} );
 
-	this.distance = ( distance !== undefined ) ? distance : 0;
+	this.distance = ( distance !== undefined ) ? distance : 0; // 该点光源能够照到的最远的距离。
 	this.decay = ( decay !== undefined ) ? decay : 1;	// for physically correct lights, should be 2.
 
 	this.shadow = new PointLightShadow();

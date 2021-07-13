@@ -37,11 +37,11 @@ function WebGLMultiview( renderer, gl ) {
 				renderTarget = new WebGLMultiviewRenderTarget( 0, 0, DEFAULT_NUMVIEWS );
 
 				renderSize = new Vector2();
-				mat4 = [];
-				mat3 = [];
+				mat4 = []; // modelViewMatrices
+				mat3 = []; // normalMatrices
 				cameraArray = [];
 
-				for ( var i = 0; i < maxNumViews; i ++ ) {
+				for ( var i = 0; i < maxNumViews; i ++ ) { // 每一个相机都有一个对应的modelViewMatrice 和 normalMatrice
 
 					mat4[ i ] = new Matrix4();
 					mat3[ i ] = new Matrix3();
@@ -56,7 +56,7 @@ function WebGLMultiview( renderer, gl ) {
 
 	}
 
-	function getCameraArray( camera ) {
+	function getCameraArray( camera ) { // 把单个camera整成长度为1的ArrayCamera是为了统一当做ArrayCamera进行处理，不用分别处理。
 
 		if ( camera.isArrayCamera ) return camera.cameras;
 
@@ -118,7 +118,7 @@ function WebGLMultiview( renderer, gl ) {
 
 		if ( cameras.length > maxNumViews ) return false;
 
-		for ( var i = 1, il = cameras.length; i < il; i ++ ) {
+		for ( var i = 1, il = cameras.length; i < il; i ++ ) { // 比较camera的长宽是否一致
 
 			if ( cameras[ 0 ].viewport.z !== cameras[ i ].viewport.z ||
 				cameras[ 0 ].viewport.w !== cameras[ i ].viewport.w ) return false;
@@ -151,13 +151,13 @@ function WebGLMultiview( renderer, gl ) {
 		} else {
 
 			renderTarget.setSize( renderSize.x, renderSize.y );
-			renderTarget.setNumViews( DEFAULT_NUMVIEWS );
+			renderTarget.setNumViews( DEFAULT_NUMVIEWS ); //此处不应该是1个吗，为什么是2个？ TODO
 
 		}
 
 	}
 
-	function attachCamera( camera ) {
+	function attachCamera( camera ) { // 将render target从 currentRenderTarget 切换到 multiView render target 。
 
 		if ( isMultiviewCompatible( camera ) === false ) return;
 
@@ -167,11 +167,11 @@ function WebGLMultiview( renderer, gl ) {
 
 	}
 
-	function detachCamera( camera ) {
+	function detachCamera( camera ) { // 将render target从 multiView render target 切换回 currentRenderTarget 。
 
-		if ( renderTarget !== renderer.getRenderTarget() ) return;
+		if ( renderTarget !== renderer.getRenderTarget() ) return; // renderTarget即是 multiView 下的render target 。
 
-		renderer.setRenderTarget( currentRenderTarget );
+		renderer.setRenderTarget( currentRenderTarget ); // currentRenderTarget 即是通常的render target
 
 		flush( camera );
 
@@ -191,13 +191,14 @@ function WebGLMultiview( renderer, gl ) {
 
 			for ( var i = 0; i < numViews; i ++ ) {
 
-				var viewport = camera.cameras[ i ].viewport;
+				var viewport = camera.cameras[ i ].viewport; // viewport的值控制该camera视角所渲染的结果将被放置在通常的render target的哪个区域。
 
 				var x1 = viewport.x;
 				var y1 = viewport.y;
 				var x2 = x1 + viewport.z;
 				var y2 = y1 + viewport.w;
 
+				// multiView的渲染机制是，先把各个相机视角的图像渲染到相应的buffer中，然后切换回通常的render target，这些buffer将作为READ_FRAMEBUFFER被读取到通常的render target 。
 				gl.bindFramebuffer( gl.READ_FRAMEBUFFER, srcFramebuffers[ i ] );
 				gl.blitFramebuffer( 0, 0, viewWidth, viewHeight, x1, y1, x2, y2, gl.COLOR_BUFFER_BIT, gl.NEAREST );
 

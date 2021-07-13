@@ -25,7 +25,7 @@ function BufferAttribute( array, itemSize, normalized ) {
 	this.count = array !== undefined ? array.length / itemSize : 0;
 	this.normalized = normalized === true;
 
-	this.usage = StaticDrawUsage;
+	this.usage = StaticDrawUsage; // 作为 gl.bufferData() 的传参，控制buffer在GPU端存放的内存区域，作为性能优化的参考。
 	this.updateRange = { offset: 0, count: - 1 };
 
 	this.version = 0;
@@ -36,7 +36,7 @@ Object.defineProperty( BufferAttribute.prototype, 'needsUpdate', {
 
 	set: function ( value ) {
 
-		if ( value === true ) this.version ++;
+		if ( value === true ) this.version ++; // 每次数据进行了更新的话，version值增加。
 
 	}
 

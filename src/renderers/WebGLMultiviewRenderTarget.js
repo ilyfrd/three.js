@@ -9,7 +9,7 @@ function WebGLMultiviewRenderTarget( width, height, numViews, options ) {
 
 	WebGLRenderTarget.call( this, width, height, options );
 
-	this.depthBuffer = false;
+	this.depthBuffer = false; // 不支持写多个深度缓存
 	this.stencilBuffer = false;
 
 	this.numViews = numViews;

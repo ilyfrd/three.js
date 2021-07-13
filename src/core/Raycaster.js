@@ -42,7 +42,7 @@ function ascSort( a, b ) {
 
 }
 
-function intersectObject( object, raycaster, intersects, recursive ) {
+function intersectObject( object, raycaster, intersects, recursive ) { // 这个函数是工具函数，被下面的同名成员函数调用。
 
 	if ( object.visible === false ) return;
 

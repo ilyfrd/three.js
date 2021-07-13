@@ -38,6 +38,8 @@ function MeshNormalMaterial( parameters ) {
 	this.bumpMap = null;
 	this.bumpScale = 1;
 
+	// 提供一张normal map 作为 uniform 在fragment shader里面采样，得到的normal值将作为光照计算的参数。
+	// 在phong着色、物理着色、标准着色、lambert着色中也都用到 normalMap。
 	this.normalMap = null;
 	this.normalMapType = TangentSpaceNormalMap;
 	this.normalScale = new Vector2( 1, 1 );

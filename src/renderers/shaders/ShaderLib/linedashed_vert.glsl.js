@@ -14,8 +14,8 @@ void main() {
 
 	#include <color_vertex>
 
-	vLineDistance = scale * lineDistance;
-
+	// 片元着色器在处理两个相邻顶点之间的像素的 lineDistance 时会根据这两个顶点的 lineDistance 进行插值，得到该像素所处位置的 lineDistance 值
+	vLineDistance = scale * lineDistance; 
 	vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
 	gl_Position = projectionMatrix * mvPosition;
 

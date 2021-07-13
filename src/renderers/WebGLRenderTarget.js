@@ -37,6 +37,8 @@ function WebGLRenderTarget( width, height, options ) {
 
 	this.depthBuffer = options.depthBuffer !== undefined ? options.depthBuffer : true;
 	this.stencilBuffer = options.stencilBuffer !== undefined ? options.stencilBuffer : true;
+	// 如果要生成depth buffer 或者 depth & stencil buffer， 那么这里的depthTexture 则用于保存生成的图像。该帧渲染场景的深度值将写入该depthTexture 。
+	// 注意，因为stencil不能单独存在，所以这里只有一个texture slot，它要么是纯depth buffer， 要么是 depth & stencil buffer 。
 	this.depthTexture = options.depthTexture !== undefined ? options.depthTexture : null;
 
 }

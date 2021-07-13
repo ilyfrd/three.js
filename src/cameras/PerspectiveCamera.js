@@ -16,11 +16,11 @@ function PerspectiveCamera( fov, aspect, near, far ) {
 	this.type = 'PerspectiveCamera';
 
 	this.fov = fov !== undefined ? fov : 50;
-	this.zoom = 1;
+	this.zoom = 1; // 影响视野的拉近与远离
 
 	this.near = near !== undefined ? near : 0.1;
 	this.far = far !== undefined ? far : 2000;
-	this.focus = 10;
+	this.focus = 10; // 似乎没有用到，立体相机中有用。
 
 	this.aspect = aspect !== undefined ? aspect : 1;
 	this.view = null;

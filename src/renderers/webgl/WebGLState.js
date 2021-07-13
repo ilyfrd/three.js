@@ -13,13 +13,13 @@ function WebGLState( gl, extensions, capabilities ) {
 
 		var locked = false;
 
-		var color = new Vector4();
+		var color = new Vector4(); // 临时存放color值，用以和currentColorClear作比较。
 		var currentColorMask = null;
 		var currentColorClear = new Vector4( 0, 0, 0, 0 );
 
 		return {
 
-			setMask: function ( colorMask ) {
+			setMask: function ( colorMask ) { // three.js 里面 colorMask 取 true或者false，即color buffer的4个通道要么全写，要么全不写。
 
 				if ( currentColorMask !== colorMask && ! locked ) {
 
@@ -335,7 +335,7 @@ function WebGLState( gl, extensions, capabilities ) {
 	var currentBlendEquationAlpha = null;
 	var currentBlendSrcAlpha = null;
 	var currentBlendDstAlpha = null;
-	var currentPremultipledAlpha = false;
+	var currentPremultipledAlpha = false; // TODO 该属性的意义尚不清楚
 
 	var currentFlipSided = null;
 	var currentCullFace = null;
@@ -425,7 +425,7 @@ function WebGLState( gl, extensions, capabilities ) {
 
 	}
 
-	function enableAttributeAndDivisor( attribute, meshPerAttribute ) {
+	function enableAttributeAndDivisor( attribute, meshPerAttribute ) { // 该函数和绘制instances有关
 
 		newAttributes[ attribute ] = 1;
 
@@ -672,7 +672,7 @@ function WebGLState( gl, extensions, capabilities ) {
 
 	}
 
-	function setMaterial( material, frontFaceCW ) {
+	function setMaterial( material, frontFaceCW ) { // 此处根据材质中定义的属性值确定帧缓冲的渲染状态，说明同一个物体上不同材质部分是分别调用draw call完成绘制的。
 
 		material.side === DoubleSide
 			? disable( gl.CULL_FACE )

@@ -17,7 +17,7 @@ void main() {
 
 	#include <clipping_planes_fragment>
 
-	if ( mod( vLineDistance, totalSize ) > dashSize ) {
+	if ( mod( vLineDistance, totalSize ) > dashSize ) { // 直线光栅化后得到的像素，根据该像素是否处在dash段决定保留还是丢弃。
 
 		discard;
 

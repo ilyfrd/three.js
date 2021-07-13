@@ -4,7 +4,13 @@
 
 import { Vector2 } from '../math/Vector2.js';
 
-function DirectGeometry() {
+/**
+ * 与Geometry不同，DirectGeometry没有uuid、name、type、faces等成员变量。
+ * 所有Geometry对象的数据都必须首先转换到DirectGeometry中，然后才发送到GPU端。
+ * 
+ * */
+
+function DirectGeometry() { 
 
 	this.vertices = [];
 	this.normals = [];
@@ -50,7 +56,7 @@ Object.assign( DirectGeometry.prototype, {
 
 			// materials
 
-			if ( face.materialIndex !== materialIndex ) {
+			if ( face.materialIndex !== materialIndex ) { // 同一个物体，将其面片根据所采用的材质不同划分为不同的group
 
 				materialIndex = face.materialIndex;
 
@@ -81,7 +87,7 @@ Object.assign( DirectGeometry.prototype, {
 
 	},
 
-	fromGeometry: function ( geometry ) {
+	fromGeometry: function ( geometry ) { // 从 Geometry 转换而来
 
 		var faces = geometry.faces;
 		var vertices = geometry.vertices;

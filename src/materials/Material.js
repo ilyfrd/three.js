@@ -9,7 +9,7 @@ import { _Math } from '../math/Math.js';
 
 var materialId = 0;
 
-function Material() {
+function Material() { // 该类定义了其继承类共有的属性
 
 	Object.defineProperty( this, 'id', { value: materialId ++ } );
 
@@ -55,7 +55,7 @@ function Material() {
 
 	this.shadowSide = null;
 
-	this.colorWrite = true;
+	this.colorWrite = true; // 是否写颜色缓存，一般当然要写的。
 
 	this.precision = null; // override the renderer's default precision for this material
 
@@ -63,18 +63,18 @@ function Material() {
 	this.polygonOffsetFactor = 0;
 	this.polygonOffsetUnits = 0;
 
-	this.dithering = false;
+	this.dithering = false; // 抖动特效的实现，忽略不看。
 
-	this.alphaTest = 0;
-	this.premultipliedAlpha = false;
+	this.alphaTest = 0; // 设置alpha测试的参考值，片元着色器输出的颜色值的alpha通道值跟该值作比较，通过则绘制该颜色，不通过则不绘制该颜色。
+	this.premultipliedAlpha = false; // TODO
 
-	this.visible = true;
+	this.visible = true; // 同 object 的visible变量一起控制物体的可见性，object 的visible粒度更大，控制物体的整体可见性；材质的visible只控制物体上应用该材质的区域的可见性。
 
 	this.toneMapped = true;
 
 	this.userData = {};
 
-	this.version = 0;
+	this.version = 0; // 每次材质参数有变化，version就会增加。
 
 }
 
@@ -121,7 +121,7 @@ Material.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 			if ( currentValue && currentValue.isColor ) {
 
-				currentValue.set( newValue );
+				currentValue.set( newValue ); // Color类型的set函数可以传3种不同类型的参数，比较灵活。
 
 			} else if ( ( currentValue && currentValue.isVector3 ) && ( newValue && newValue.isVector3 ) ) {
 
@@ -129,7 +129,7 @@ Material.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 			} else {
 
-				this[ key ] = newValue;
+				this[ key ] = newValue; // 普通类型（比如float int bool等）可以直接使用赋值操作符。
 
 			}
 

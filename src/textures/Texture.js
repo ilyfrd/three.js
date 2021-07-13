@@ -191,7 +191,7 @@ Texture.prototype = Object.assign( Object.create( EventDispatcher.prototype ), {
 
 				var url;
 
-				if ( Array.isArray( image ) ) {
+				if ( Array.isArray( image ) ) { // 如果是CubeTexture，那么image就是数组，如果是普通的Texture，那么image就是单个对象。
 
 					// process array of images e.g. CubeTexture
 

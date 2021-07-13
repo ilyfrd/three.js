@@ -24,7 +24,7 @@ var _m1 = new Matrix4();
 var _obj = new Object3D();
 var _offset = new Vector3();
 
-function Geometry() {
+function Geometry() { // Geometry是通用的描述物体几何信息的类，其id是偶数。
 
 	Object.defineProperty( this, 'id', { value: _geometryId += 2 } );
 
@@ -35,7 +35,7 @@ function Geometry() {
 
 	this.vertices = [];
 	this.colors = [];
-	this.faces = [];
+	this.faces = []; // 保存Face3类型对象的数组
 	this.faceVertexUvs = [[]];
 
 	this.morphTargets = [];
@@ -182,7 +182,7 @@ Geometry.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 	},
 
-	fromBufferGeometry: function ( geometry ) {
+	fromBufferGeometry: function ( geometry ) { // 从 BufferGeometry 转换而来
 
 		var scope = this;
 
@@ -282,7 +282,7 @@ Geometry.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 			}
 
-		} else {
+		} else { // groups 没有数据时，说明该物体只有一种材质。
 
 			if ( indices !== undefined ) {
 
@@ -292,7 +292,7 @@ Geometry.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 				}
 
-			} else {
+			} else { // 没有indices数据时，说明顶点数据是雍余存放的。
 
 				for ( var i = 0; i < positions.length / 3; i += 3 ) {
 
@@ -652,7 +652,7 @@ Geometry.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 	merge: function ( geometry, matrix, materialIndexOffset ) {
 
-		if ( ! ( geometry && geometry.isGeometry ) ) {
+		if ( ! ( geometry && geometry.isGeometry ) ) { // 将两个Geometry合并成一个Geometry
 
 			console.error( 'THREE.Geometry.merge(): geometry not an instance of THREE.Geometry.', geometry );
 			return;

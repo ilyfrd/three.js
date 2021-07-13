@@ -65,6 +65,7 @@ function CubeCamera( near, far, cubeResolution, options ) {
 
 		renderTarget.texture.generateMipmaps = false;
 
+		// 可以看到，对于cube render target，需要渲染6次。
 		renderer.setRenderTarget( renderTarget, 0 );
 		renderer.render( scene, cameraPX );
 

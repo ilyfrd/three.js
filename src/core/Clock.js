@@ -7,7 +7,7 @@ function Clock( autoStart ) {
 	this.autoStart = ( autoStart !== undefined ) ? autoStart : true;
 
 	this.startTime = 0;
-	this.oldTime = 0;
+	this.oldTime = 0; // 上一帧的时间点
 	this.elapsedTime = 0;
 
 	this.running = false;
@@ -36,7 +36,7 @@ Object.assign( Clock.prototype, {
 
 	getElapsedTime: function () {
 
-		this.getDelta();
+		this.getDelta(); // 把当前帧的用时也算进去
 		return this.elapsedTime;
 
 	},

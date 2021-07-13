@@ -24,7 +24,7 @@ var _box = new Box3();
 var _boxMorphTargets = new Box3();
 var _vector = new Vector3();
 
-function BufferGeometry() {
+function BufferGeometry() { // BufferGeometry 主要用于描述静态物体的几何信息（参看*.d.ts文件中的注释），其id是奇数。
 
 	Object.defineProperty( this, 'id', { value: _bufferGeometryId += 2 } );
 
@@ -290,7 +290,7 @@ BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher.prototy
 
 			}
 
-		} else if ( object.isMesh ) {
+		} else if ( object.isMesh ) { // mesh 的 geometry 成员变量保存的是 Geometry 类对象
 
 			if ( geometry && geometry.isGeometry ) {
 
@@ -448,6 +448,8 @@ BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher.prototy
 
 	},
 
+	// BufferGeometry 经由 Geometry 到 DirectGeometry 再到 BufferGeometry 而来。
+	// DirectGeometry起到桥梁作用，BufferGeometry才是直接跟GPU打交道的对象。
 	fromGeometry: function ( geometry ) {
 
 		geometry.__directGeometry = new DirectGeometry().fromGeometry( geometry );

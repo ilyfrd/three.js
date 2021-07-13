@@ -51,18 +51,18 @@ function WebGLGeometries( gl, attributes, info ) {
 
 		var buffergeometry = geometries.get( geometry );
 
-		if ( buffergeometry ) return buffergeometry;
+		if ( buffergeometry ) return buffergeometry; // map里面已经保存，直接返回。
 
 		geometry.addEventListener( 'dispose', onGeometryDispose );
 
-		if ( geometry.isBufferGeometry ) {
+		if ( geometry.isBufferGeometry ) { // geometry本身已经是 BufferGeometry 了
 
 			buffergeometry = geometry;
 
-		} else if ( geometry.isGeometry ) {
+		} else if ( geometry.isGeometry ) { // geometry不是 BufferGeometry ，则get函数需要object辅助，因为需要根据object生成一个 BufferGeometry。
 
 			if ( geometry._bufferGeometry === undefined ) {
-
+				// 使用 _bufferGeometry 指向生成的 BufferGeometry 是避免再次 get 时还去从 object 生成。
 				geometry._bufferGeometry = new BufferGeometry().setFromObject( object );
 
 			}
@@ -71,7 +71,7 @@ function WebGLGeometries( gl, attributes, info ) {
 
 		}
 
-		geometries.set( geometry, buffergeometry );
+		geometries.set( geometry, buffergeometry ); // 存档
 
 		info.memory.geometries ++;
 

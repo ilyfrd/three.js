@@ -91,7 +91,7 @@ function Object3D() {
 		modelViewMatrix: {
 			value: new Matrix4()
 		},
-		normalMatrix: {
+		normalMatrix: { // 用于变换法向量的矩阵
 			value: new Matrix3()
 		}
 	} );
@@ -108,7 +108,7 @@ function Object3D() {
 	this.castShadow = false;
 	this.receiveShadow = false;
 
-	this.frustumCulled = true;
+	this.frustumCulled = true; // 表示该object是否被投影框剔除，据此判断是否绘制该object
 	this.renderOrder = 0;
 
 	this.userData = {};
@@ -279,7 +279,7 @@ Object3D.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 		var parent = this.parent;
 
-		this.updateWorldMatrix( true, false );
+		this.updateWorldMatrix( true, false ); // 如果此时父节点的transform发生了改变，那么当前3d object的position也需要随之更新
 
 		_position.setFromMatrixPosition( this.matrixWorld );
 
@@ -507,7 +507,7 @@ Object3D.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 	traverse: function ( callback ) {
 
-		callback( this );
+		callback( this ); // 遍历到该节点时，对该节点应用的处理函数
 
 		var children = this.children;
 
@@ -519,7 +519,7 @@ Object3D.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 	},
 
-	traverseVisible: function ( callback ) {
+	traverseVisible: function ( callback ) { // 只遍历可见物体
 
 		if ( this.visible === false ) return;
 
@@ -553,7 +553,7 @@ Object3D.prototype = Object.assign( Object.create( EventDispatcher.prototype ), 
 
 		this.matrix.compose( this.position, this.quaternion, this.scale );
 
-		this.matrixWorldNeedsUpdate = true;
+		this.matrixWorldNeedsUpdate = true; // 局部坐标系中的方位发生了改变，世界坐标系中的方位当然也需要随之改变。
 
 	},
 
